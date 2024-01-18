@@ -14,4 +14,5 @@ type IRocksDB interface {
 	Get(key []byte) []byte
 	Iterator(start, end []byte) types.Iterator
 	ReverseIterator(start, end []byte) types.Iterator
+	SetPruneHeight(h uint64)
 }
