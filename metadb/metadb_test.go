@@ -18,7 +18,7 @@ func TestMetaDB(t *testing.T) {
 	err := os.RemoveAll("./test.db")
 	assert.Equal(t, nil, err)
 
-	kvdb, err := indextree.NewRocksDB("test", ".")
+	kvdb, err := indextree.NewBadgerDB("test", ".")
 	assert.Equal(t, nil, err)
 	kvdb.OpenNewBatch()
 	mdb := NewMetaDB(kvdb)
@@ -75,7 +75,7 @@ func TestMetaDB(t *testing.T) {
 	kvdb.Close()
 	mdb.Close()
 
-	kvdb, err = indextree.NewRocksDB("test", ".")
+	kvdb, err = indextree.NewBadgerDB("test", ".")
 	assert.Equal(t, nil, err)
 	kvdb.OpenNewBatch()
 	mdb = NewMetaDB(kvdb)

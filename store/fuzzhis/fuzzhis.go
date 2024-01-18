@@ -66,7 +66,7 @@ type RefHisDb struct {
 func NewRefHisDb(dirname string) *RefHisDb {
 	db := &RefHisDb{}
 	var err error
-	db.rocksdb, err = it.NewRocksDB(dirname, ".")
+	db.rocksdb, err = it.NewBadgerDB(dirname, ".")
 	if err != nil {
 		panic(err)
 	}

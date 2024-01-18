@@ -37,7 +37,7 @@ type NVTreeRef struct {
 }
 
 func (tree *NVTreeRef) Init(dirname string) (err error) {
-	tree.rocksdb, err = it.NewRocksDB("idxtreeref", dirname)
+	tree.rocksdb, err = it.NewBadgerDB("idxtreeref", dirname)
 	if err != nil {
 		return err
 	}
@@ -134,7 +134,7 @@ func RunFuzz(roundCount int, cfg FuzzConfig, randFilename string) {
 	os.RemoveAll("./idxtree.db")
 	os.RemoveAll("./idxtreeref.db")
 	rs := randsrc.NewRandSrcFromFile(randFilename)
-	rocksdb, err := it.NewRocksDB("idxtree", ".")
+	rocksdb, err := it.NewBadgerDB("idxtree", ".")
 	if err != nil {
 		panic(err)
 	}
@@ -158,7 +158,7 @@ func RunFuzz(roundCount int, cfg FuzzConfig, randFilename string) {
 			fmt.Printf("Reopen begin \n")
 			trMem.Close()
 			rocksdb.Close()
-			rocksdb, err = it.NewRocksDB("idxtree", ".")
+			rocksdb, err = it.NewBadgerDB("idxtree", ".")
 			if err != nil {
 				panic(err)
 			}

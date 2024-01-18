@@ -66,7 +66,7 @@ func NewMoeingADS4Mock(startEndKeys [][]byte) *MoeingADS {
 	mads.idxTree = indextree.NewMockIndexTree()
 
 	var err error
-	mads.rocksdb, err = indextree.NewRocksDB("rocksdb", "./")
+	mads.rocksdb, err = indextree.NewBadgerDB("rocksdb", "./")
 	if err != nil {
 		panic(err)
 	}
@@ -98,7 +98,7 @@ func NewMoeingADS(dirName string, canQueryHistory bool, startEndKeys [][]byte) (
 		_ = os.Mkdir(dirName, 0700)
 	}
 
-	mads.rocksdb, err = indextree.NewRocksDB("rocksdb", dirName)
+	mads.rocksdb, err = indextree.NewBadgerDB("rocksdb", dirName)
 	if err != nil {
 		panic(err)
 	}
