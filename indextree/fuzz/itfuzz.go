@@ -208,7 +208,7 @@ func FuzzDelete(trMem *it.NVTreeMem, refTree *NVTreeRef, cfg FuzzConfig, rs rand
 	//return
 }
 
-func FuzzInit(rocksdb *it.RocksDB, trMem *it.NVTreeMem, refTree *NVTreeRef, cfg FuzzConfig, rs randsrc.RandSrc, h uint64, changeMap map[string]int64) {
+func FuzzInit(rocksdb it.IRocksDB, trMem *it.NVTreeMem, refTree *NVTreeRef, cfg FuzzConfig, rs randsrc.RandSrc, h uint64, changeMap map[string]int64) {
 	for i := 0; i < cfg.InitCount; i++ {
 		// set new key/value
 		key, value := getRandKey(rs), (rs.GetInt64() & ((int64(1) << 48) - 1))
