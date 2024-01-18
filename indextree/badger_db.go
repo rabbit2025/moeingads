@@ -50,7 +50,7 @@ type BadgerDB struct {
 	mtx    sync.Mutex
 }
 
-func NewBadgerDB(name string, dir string) (IRocksDB, error) {
+func NewBadgerDB(name string, dir string) (IKVDB, error) {
 	// default rocksdb option, good enough for most cases, including heavy workloads.
 	// 64MB table cache, 32MB write buffer
 	// compression: snappy as default, need to -lsnappy to enable.
@@ -72,7 +72,7 @@ func NewBadgerDB(name string, dir string) (IRocksDB, error) {
 	return NewBadgerDBWithOptions(opts)
 }
 
-func NewBadgerDBWithOptions(opts badger.Options) (IRocksDB, error) {
+func NewBadgerDBWithOptions(opts badger.Options) (IKVDB, error) {
 	// dbPath := filepath.Join(dir, name+".db")
 	// filter := HeightCompactionFilter{}
 	// opts.SetCompactionFilter(&filter) // use a customized compaction filter

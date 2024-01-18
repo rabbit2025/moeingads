@@ -2,7 +2,7 @@ package indextree
 
 import "github.com/smartbch/moeingads/types"
 
-type IRocksDB interface {
+type IKVDB interface {
 	Close()
 	GetPruneHeight() (uint64, bool)
 	NewBatch() types.Batch
