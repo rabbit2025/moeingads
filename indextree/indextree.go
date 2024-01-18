@@ -112,14 +112,14 @@ type NVTreeMem struct {
 	mtx        sync.RWMutex
 	bt         *b.Tree
 	isWriting  bool
-	rocksdb    *RocksDB
+	rocksdb    IRocksDB
 	currHeight [8]byte
 	duringInit bool
 }
 
 var _ types.IndexTree = (*NVTreeMem)(nil)
 
-func NewNVTreeMem(rocksdb *RocksDB) *NVTreeMem {
+func NewNVTreeMem(rocksdb IRocksDB) *NVTreeMem {
 	btree := b.TreeNew()
 	return &NVTreeMem{
 		bt:      btree,

@@ -58,7 +58,7 @@ func runTest(cfg FuzzConfig) {
 var AllOnes = []byte{255, 255, 255, 255, 255, 255, 255, 255}
 
 type RefHisDb struct {
-	rocksdb    *it.RocksDB
+	rocksdb    it.IRocksDB
 	batch      types.Batch
 	currHeight [8]byte
 }

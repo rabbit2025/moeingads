@@ -31,7 +31,7 @@ var AllOnes = []byte{255, 255, 255, 255, 255, 255, 255, 255}
 var AllZeros = []byte{0, 0, 0, 0, 0, 0, 0, 0}
 
 type NVTreeRef struct {
-	rocksdb    *it.RocksDB
+	rocksdb    it.IRocksDB
 	batch      types.Batch
 	currHeight [8]byte
 }
