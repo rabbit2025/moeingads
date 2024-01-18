@@ -38,7 +38,7 @@ type MoeingADS struct {
 	meta           types.MetaDB
 	idxTree        types.IndexTree
 	datTree        [types.ShardCount]types.DataTree
-	rocksdb        *indextree.RocksDB
+	rocksdb        indextree.IRocksDB
 	k2heMap        *BucketMap // key-to-hot-entry map
 	nkSet          *BucketSet // next-key set
 	tempEntries64  [BucketCount][]*HotEntry
