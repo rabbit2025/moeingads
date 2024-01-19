@@ -128,7 +128,8 @@ func (db *BadgerDB) SetPruneHeight(h uint64) {
 }
 
 func (db *BadgerDB) GetPruneHeight() (uint64, bool) {
-	return db.filter.pruneHeight, db.filter.pruneEnable
+	// return db.filter.pruneHeight, db.filter.pruneEnable
+	return 0, false
 }
 
 // Implements DB.
@@ -341,9 +342,9 @@ func (db *BadgerDB) ReverseIterator(start, end []byte) types.Iterator {
 }
 
 func (b *BadgerDB) iteratorOpts(start, end []byte, opts badger.IteratorOptions) *badgerDBIterator {
-	if (start != nil && len(start) == 0) || (end != nil && len(end) == 0) {
-		panic("errKeyEmpty")
-	}
+	// if (start != nil && len(start) == 0) || (end != nil && len(end) == 0) {
+	// 	panic("errKeyEmpty")
+	// }
 	txn := b.db.NewTransaction(false)
 	iter := txn.NewIterator(opts)
 	iter.Rewind()
