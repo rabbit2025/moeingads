@@ -2,7 +2,6 @@ package indextree
 
 import (
 	"bytes"
-	"encoding/binary"
 	"fmt"
 	"path/filepath"
 	"sync"
@@ -13,41 +12,13 @@ import (
 
 var _ = badger.BlockCache
 
-// We use rocksdb's customizable compact filter to prune old records
-type HeightCompactionFilter struct {
-	pruneHeight uint64
-	pruneEnable bool
-}
-
-func (f *HeightCompactionFilter) Name() string {
-	return "HeightPruneFilter"
-}
-
-// The last 8 bytes of keys are expiring height. If it is too small, we prune the record
-func (f *HeightCompactionFilter) Filter(level int, key, val []byte) (remove bool, newVal []byte) {
-	if len(key) < 8 {
-		return false, val
-	}
-	if len(key) >= 1 && key[0] != 0 {
-		return false, val // not starting with zero
-	}
-	start := len(key) - 8
-	h := binary.BigEndian.Uint64(key[start:])
-	if f.pruneEnable && f.pruneHeight > h {
-		return true, nil
-	} else {
-		return false, val
-	}
-}
-
 type BadgerDB struct {
 	db *badger.DB
 	// ro     *gorocksdb.ReadOptions
 	// wo     *gorocksdb.WriteOptions
 	// woSync *gorocksdb.WriteOptions
-	filter *HeightCompactionFilter
-	batch  *badgerDBBatch
-	mtx    sync.Mutex
+	batch *badgerDBBatch
+	mtx   sync.Mutex
 }
 
 func NewBadgerDB(name string, dir string) (IKVDB, error) {
@@ -121,10 +92,7 @@ func (db *BadgerDB) OpenNewBatch() {
 }
 
 func (db *BadgerDB) SetPruneHeight(h uint64) {
-	if db.filter.pruneHeight < h {
-		db.filter.pruneHeight = h
-	}
-	db.filter.pruneEnable = true
+	// do nothing
 }
 
 func (db *BadgerDB) GetPruneHeight() (uint64, bool) {
