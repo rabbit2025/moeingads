@@ -275,7 +275,7 @@ func (mBatch *badgerDBBatch) Set(key, value []byte) {
 	if mBatch.batch == nil {
 		panic("errBatchClosed")
 	}
-	mBatch.batch.Set(key, value)
+	mBatch.batch.Set(append([]byte{}, key...), append([]byte{}, value...))
 }
 
 // Implements Batch.
@@ -286,7 +286,7 @@ func (mBatch *badgerDBBatch) Delete(key []byte) {
 	if mBatch.batch == nil {
 		panic("errBatchClosed")
 	}
-	mBatch.batch.Delete(key)
+	mBatch.batch.Delete(append([]byte{}, key...))
 }
 
 // Implements Batch.
