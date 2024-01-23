@@ -1,6 +1,10 @@
 package indextree
 
-import "github.com/smartbch/moeingads/types"
+import (
+	"time"
+
+	"github.com/smartbch/moeingads/types"
+)
 
 type IKVDB interface {
 	Close()
@@ -15,4 +19,5 @@ type IKVDB interface {
 	Iterator(start, end []byte) types.Iterator
 	ReverseIterator(start, end []byte) types.Iterator
 	SetPruneHeight(h uint64)
+	SetKeyTTL(ttl time.Duration)
 }

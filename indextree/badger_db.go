@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"sync"
+	"time"
 
 	"github.com/dgraph-io/badger/v4"
 	"github.com/smartbch/moeingads/types"
@@ -17,8 +18,9 @@ type BadgerDB struct {
 	// ro     *gorocksdb.ReadOptions
 	// wo     *gorocksdb.WriteOptions
 	// woSync *gorocksdb.WriteOptions
-	batch *badgerDBBatch
-	mtx   sync.Mutex
+	batch  *badgerDBBatch
+	mtx    sync.Mutex
+	keyTTL time.Duration
 }
 
 func NewBadgerDB(name string, dir string) (IKVDB, error) {
@@ -65,6 +67,10 @@ func NewBadgerDBWithOptions(opts badger.Options) (IKVDB, error) {
 		// filter: &filter,
 	}
 	return database, nil
+}
+
+func (db *BadgerDB) SetKeyTTL(ttl time.Duration) {
+	db.keyTTL = ttl
 }
 
 func (db *BadgerDB) CurrBatch() types.Batch {
@@ -140,6 +146,10 @@ func (db *BadgerDB) Set(key []byte, value []byte) {
 		panic("Nil Value for RocksDB")
 	}
 	err := db.db.Update(func(txn *badger.Txn) error {
+		if db.keyTTL > 0 {
+			e := badger.NewEntry(key, value).WithTTL(db.keyTTL)
+			return txn.SetEntry(e)
+		}
 		return txn.Set(key, value)
 	})
 	if err != nil {
